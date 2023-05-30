@@ -15,7 +15,7 @@ public class OrderStatusListener {
     public OrderStatusListener(KafkaTemplate<Long, Notification> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
     }
-    @KafkaListener(topics = "order-topic", groupId = "palmetto-group")
+    @KafkaListener(topics = "order-topic", groupId = "cuirer-group")
     public void listen(Notification updatedOrder) {
         Notification message = new Notification(updatedOrder.getId(), "Ready" );
         kafkaTemplate.send("notification-topic", message);
