@@ -15,7 +15,7 @@ public class OrderStatusListener {
             this.orderMap = orderMap;
         }
 
-    @KafkaListener(topics = "order-topic", groupId = "order-group")
+    @KafkaListener(topics = "order-topic", groupId = "couirer-group")
     public void listen(Notification updatedOrder) {
         // Обновление статуса заказа в базе данных
         Notification existingOrder = orderMap.get(updatedOrder.getId());
