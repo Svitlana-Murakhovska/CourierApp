@@ -1,4 +1,4 @@
-package client.model;
+package client;
 
 public class Notification {
     private long id;
