@@ -1,6 +1,6 @@
-package kafka;
+package Curier.kafka;
 
-import Cuirer.model.Order;
+import client.model.Notification;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
@@ -9,16 +9,16 @@ import java.util.Map;
 @Component
 public class OrderStatusListener {
 
-        private final Map<Long, Order> orderMap;
+        private final Map<Long, Notification> orderMap;
 
-        public OrderStatusListener(Map<Long, Order> orderMap) {
+        public OrderStatusListener(Map<Long, Notification> orderMap) {
             this.orderMap = orderMap;
         }
 
     @KafkaListener(topics = "order-topic", groupId = "order-group")
-    public void listen(Order updatedOrder) {
+    public void listen(Notification updatedOrder) {
         // Обновление статуса заказа в базе данных
-        Order existingOrder = orderMap.get(updatedOrder.getId());
+        Notification existingOrder = orderMap.get(updatedOrder.getId());
         if (existingOrder != null) {
             existingOrder.setOrderStatus(updatedOrder.getOrderStatus());
         }
