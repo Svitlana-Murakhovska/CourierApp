@@ -1,6 +1,6 @@
 package Curier.kafka;
 
-import client.Notification;
+import client.model.Notification;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
@@ -13,9 +13,12 @@ public class OrderStatusListener {
     public OrderStatusListener(KafkaTemplate<Long, Notification> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
     }
-    @KafkaListener(topics = "order-topic", groupId = "cuirer-group")
-    public void listen(Notification updatedOrder) {
-        Notification message = new Notification(updatedOrder.getId(), "Ready" );
-        kafkaTemplate.send("notification-topic", message);
+    @KafkaListener(topics = "notification-topic", groupId = "cuirer-group")
+    public void listen(Notification updatedOrder) throws InterruptedException {
+        Thread.sleep(5000);
+        if (!"Delivered".equals(updatedOrder.getOrderStatus())){
+                Notification message = new Notification(updatedOrder.getId(), "Delivered" );
+                kafkaTemplate.send("notification-topic", message);
+        }
     }
 }
